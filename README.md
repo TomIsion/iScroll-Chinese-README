@@ -1,5 +1,8 @@
 # iScroll 给你的页面带来丝般顺滑的感受
 
+- 原文链接： [https://github.com/cubiq/iscroll/blob/master/README.md](https://github.com/cubiq/iscroll/blob/master/README.md)
+- 库链接： [https://github.com/cubiq/iscroll](https://github.com/cubiq/iscroll)
+
 ## 背景
 
 `iScroll` 是表现优异、内存占用小、无依赖且支持多平台的使用 `javascript` 实现的滚动
@@ -19,11 +22,33 @@
 
 `iScroll` 设计出来的初衷就是为了优化原有的滚动体现。为了这个目的，`iScroll` 被分割成了许多的版本，你可以根据需求来选择最合适你的版本来获得最佳体验。
 
-目前我们提供这些种类的香水供你盛装出席：
+目前我们提供这些种类的香水来供你盛装出席：
 
 - **iscroll.js**
 
 ## 快速开始
+
+废话不多说了，你肯定是想成为优秀的 `iScroll` 使用者。酷，跟上我，下面就来了
+
+学习 `iScroll` 最好的方式就是通过许许多多的例子来学习。你可以在远程库的路径下发现一个 `demo` 路径里面塞满了各种例子，大多数的特性都可以在这些例子里面找到
+
+`iScroll` 提供一个名叫 `IScroll` 的类，你要做的只是给每个需要滚动的区域初始化这个类。再遇到渲染、CPU/内存瓶颈之前，对于每个页面中可以有的 `iScroll` 对象的数量没有限制。
+
+使你的DOM结构尽可能保持简单，`iScroll` 虽然可以自己创建DOM结构，但是对于DOM结构还是有个最基本的限制条件
+
+最佳实践的HTML结构是：
+
+```
+<div id="wrapper">
+    <ul>
+        <li>...</li>
+        <li>...</li>
+        ...
+    </ul>
+</div>
+```
+
+`iScroll` 必须被滚动区域的容器所初始化。在上面的例子中就是想让 `UL` 节点滚动起来。**`iScroll` 必须作用于滚动区域的外层包裹DOM上，同时外层包裹的容器只有它的首个子节点才会有 `iScroll` 的滚动效果，其他子节点会被忽视**
 
 只需要 `IScroll(element)` 你所需要滚动的DOM结构就可以，但是请注意
 
@@ -50,11 +75,15 @@
 
 ## 配置
 
-初始化的第二个参数对象可以配置 `iScroll` 的各项表现
+通过指定初始化 `iScroll` 的第二个参数对象，可以配置 `iScroll` 的各项表现
 
 在初始化后，可以通过返回值的 `options` 属性获取配置
 
 ### 动起来的核心
+
+`iScroll` 基于设备/浏览器的能力检测，使用了许多不同的技术来实现滚动的效果。**通常情况下，不需要你来代替引擎选择何种技术**，`iScroll` 足够聪明，它足以帮你选择最优解
+
+最重要的是理解当前 `iScroll` 运行在何种机制下
 
 **以下三个属性通常都是不需要手动配置的，但是当你发现卡顿或是性能丢失时，你需要回来查看是不是哪个出现了问题**
 
@@ -62,11 +91,15 @@
 
 #### options.useTransform (Default: true)
 
-关闭的话使用 `top/left` 来绘制动画，让人想起了被IE支配的恐惧，往往只用于 `Flash,iframes,video` 这些标签，同时这个属性意味着巨大的性能损耗
+默认情况下 `iScroll` 引擎会使用 `transform` 这个样式属性来变化位置。关闭的话使用 `top/left` 来绘制动画，让人想起了被IE支配的恐惧
+
+关闭的情况往往只适用于 `Flash,iframes,video` 这些标签，同时关闭这个属性意味着巨大的性能损耗
 
 #### options.useTransition (Default: true)
 
-关闭的话使用`requestAnimationFrame`来绘制页面，现代浏览器上区别不大，老旧浏览器上 `transition` 的效果更好
+`iScroll` 使用样式属性 `transition` 来实现动画（尤其是动量变化与缓动效果）。关闭的话使用`requestAnimationFrame`来代替
+
+现代浏览器上区别不大，老旧浏览器上 `transition` 的效果更好
 
 #### options.HWCompositing (Default: true)
 
@@ -80,7 +113,7 @@
 
 #### options.click (Default: false)
 
-为了近乎原生般的滚动体验，`iScroll` 默认禁止了很多的事件监听，如果你需要的话，手动开启这个事件。当然，我们管家推荐使用 `tap` 事件监听
+为了近乎原生般的滚动体验，`iScroll` 默认禁止了很多的事件监听，如果你需要的话，手动开启这个事件。当然，我们官方推荐使用 `tap` 事件监听
 
 #### options.disableMouse (Default: false)
 #### options.disablePointer (Default: false)
