@@ -25,6 +25,7 @@
 目前我们提供这些种类的香水来供你盛装出席：
 
 - **iscroll.js**
+- ****
 
 ## 快速开始
 
@@ -49,6 +50,8 @@
 ```
 
 `iScroll` 必须被滚动区域的容器所初始化。在上面的例子中就是想让 `UL` 节点滚动起来。**`iScroll` 必须作用于滚动区域的外层包裹DOM上，同时外层包裹的容器只有它的首个子节点才会有 `iScroll` 的滚动效果，其他子节点会被忽视**
+
+<!-- @todos：这段翻译需要重置 -->
 
 只需要 `IScroll(element)` 你所需要滚动的DOM结构就可以，但是请注意
 
@@ -83,11 +86,7 @@
 
 `iScroll` 基于设备/浏览器的能力检测，使用了许多不同的技术来实现滚动的效果。**通常情况下，不需要你来代替引擎选择何种技术**，`iScroll` 足够聪明，它足以帮你选择最优解
 
-最重要的是理解当前 `iScroll` 运行在何种机制下
-
-**以下三个属性通常都是不需要手动配置的，但是当你发现卡顿或是性能丢失时，你需要回来查看是不是哪个出现了问题**
-
-// @todos：transform & translate
+最重要的是明确当前 `iScroll` 运行在何种机制下
 
 #### options.useTransform (Default: true)
 
@@ -103,27 +102,29 @@
 
 #### options.HWCompositing (Default: true)
 
-增加 `translateZ(0)` 来优化移动端的效果
+这个属性给滚动区域的样式属性中增加了 `translateZ(0)`。这大大提升了在优化移动端的呈现效果，但是如果你有过多的滚动区域同时硬件不能很好的支撑效果，你需要关闭这个配置项
+
+如果不能确定是否需要改变这三个属性值，那就让 `iScroll` 来做最优配置的决定。为了获得最佳体验效果，上面这些可选的配置属性都应该被配置成为 `true` （或者干脆不配置它们，`iScroll` 会自动将他们配置成 `true`）。当你的程序出现卡顿或者是内存泄漏的情况，你需要考虑是不是需要关闭其中的某个或者某几个属性
 
 ### 个性化你的 iScroll
 
 #### options.dounce (Default: true)
 
-开启缓动效果，如果你想追求完美相同，那就关了吧（那你还用毛`iScroll`）
+当滚动区域遇到边界的时候，将会有个小的反弹动画（和 `iOS` 下橡皮筋效果类似）。如果你想追求和老旧缓慢机型上效果完美相同，那就关了吧（那你还用毛`iScroll`）
 
 #### options.click (Default: false)
 
-为了近乎原生般的滚动体验，`iScroll` 默认禁止了很多的事件监听，如果你需要的话，手动开启这个事件。当然，我们官方推荐使用 `tap` 事件监听
+为了近乎原生般的滚动体验，`iScroll` 默认禁止了很多的事件监听，譬如鼠标点击事件。如果你需要监听 `click` 事件，那么需要手动开启这个事件。当然，我们官方更加推荐使用 `tap` 事件监听而不是 `click`
 
 #### options.disableMouse (Default: false)
 #### options.disablePointer (Default: false)
 #### options.disablePointer (Default: false)
 
-// @todos：多个事件监听，但是只触发一个是如何做到的？
-
 默认情况下，`iScroll` 会同时监听上面所有的事件，但是只会响应第一个被触发的事件。看上去这种行为有些资源浪费，但是为了最好的兼容性，放弃特征检测选择全部监听是最有效的方式了
 
 如果你有强悍的内部检测机制，或者确定只需要其中的一种事件监听，那好吧，你可以关闭你所不需要的
+
+举个栗子，关闭鼠标与指针事件监听你需要这么做：
 
 ```
 var myScroll = new IScroll('#wrapper', {
@@ -134,9 +135,9 @@ var myScroll = new IScroll('#wrapper', {
 
 #### options.eventPassthrough (Default: false)
 
-Todos
+有的时候，你需要保留原生的竖直滚动与此同时需要增加水平的 `iScroll` （可能是个轮播效果）。开启这个属性，那样 `iScroll` 仅仅只会监听水平方向的事件。竖直方向的滚动仍旧会与原来的保持一致
 
-需要配合使用，具体作用不详
+看这个移动端的例子 [event passthrough demo]()。需要注意的是，这个属性被设置后可能的展现效果是竖直方向的（原生的滚动方向是水平的，那么 `iScroll` 的方向就是竖直的）
 
 #### options.freeScroll (Default: false)
 
@@ -153,15 +154,15 @@ scrollX: true,
 freeScroll: true
 ```
 
-两者一起食用更佳
+两者一起食用更佳，看这个栗子 [2D Scroll demo]()
 
 #### options.keyBindings (Default: false)
 
-设置成 `true` ，使得键盘（遥控器）的操作变得有效，具体使用在后面详细介绍
+设置成 `true` ，使得键盘（遥控器）的操作变得有效，看这个栗子 [Key bindings]()。具体使用在后面详细介绍
 
 #### options.invertWheelDirection (Default: false)
 
-Todos
+当鼠标滚轮事件监听被开启时才会有作用，在这样的前提条件下，通过这个属性可以增加滚动方向（栗子：向下滚轮滚动的时候可以让页面向上滚动，反之亦然）。
 
 #### options.momentum (Default: true)
 
@@ -169,35 +170,41 @@ Todos
 
 #### options.mouseWheel (Default: false)
 
-监听鼠标滚动事件
+是否开启监听鼠标滚轮相关事件
 
 #### options.preventDefault (Default: true)
 
-Todos 具体作用不详
+设置当事件被触发的时候，是否会执行 `preventDefault()` 事件。这个属性应该默保持 `true`，除非你真正明确想要的效果
+
+在下面的高级特性中的 `preventDefaultException` 将会详细讲述相关组织默认事件效果的相关
 
 #### options.scrollbars (Default: false)
 
-是否显示默认的滚动条，具体使用在后面详细介绍
+是否显示默认的滚动条，具体使用在后面滚动条模块详细介绍
 
 #### options.scrollX/.scrollY (Default: scrollX: false, scrollY: true)
+
+默认情况下只会开启竖直方向上的滚动效果。如果你需要水平方向的滚动，你需要设置 `scrollX` 值为 `true`。看这个栗子 [horizontal demo]()
 
 正确的手动关闭对应方向的滚动监听，可以优化性能损耗
 
 #### options.startX/.startY (Default: 0)
 
-默认情况下 `iScroll` 从坐标 `0, 0` 开始，可以手动指定**初始化时开始的位置坐标**
+默认情况下 `iScroll` 从坐标 `0, 0` 开始，可以手动指定**初始化时**开始的位置坐标
 
 #### options.tap (Default: false)
 
-设置成 `true`，可以让 `iScroll` 对象监听 `tap` 事件，你可以像下面的方式来监听点击/轻触事件
+设置成 `true`，可以让 `iScroll` 中滚动区域，你可以像下面的方式来监听点击/轻触事件
 
 ```
 document.getElement('#element').addEventListener('tap', doSth, false) // Native
 $('#element').on('tap', doSth) // jQuery
 
-// is iScroll
+// in iScroll
 tap: true
 ```
+
+
 
 ### Scrollbars 相关
 
@@ -211,7 +218,13 @@ scrollbar的属性并不是像名字那么简单，事实上我更愿意把相�
 
 // @todos：样式是如何实现的？ 默认实现的么
 
-就和基础设置里面说的一样，把这个属性改成 `true` 是后续让指示器变得更有趣的先决条件
+就和`个性化你的 iScroll`里面各项属性设置一样，把这个属性改成 `true` 是后续让指示器变得更有趣的先决条件
+
+```
+var myScroll = new IScroll('#wrapper', {
+  scrollbars: true
+})
+```
 
 #### options.fadeScrollbars (Default: false)
 
@@ -223,9 +236,11 @@ scrollbar的属性并不是像名字那么简单，事实上我更愿意把相�
 
 #### options.resizeScrollbars (Default: true)
 
-滚动条的长度会随着滚动容器和滚动区域的比例而变化。关闭自适应的尺寸效果可以设置固定长度的滚动条。常常配合用户自定义滚动条样式来使用
+滚动条的长度会随着滚动容器和滚动区域的大小比例而变化。关闭自适应的尺寸效果可以设置固定长度的滚动条。常常配合用户自定义滚动条样式来使用
 
 #### options.shrinkScrollbars (Default: false)
+
+<!-- @todos：这段翻译需要重置 -->
 
 当滚动超出边界的时候，滚动条也会小小的收缩
 
@@ -240,7 +255,7 @@ scrollbar的属性并不是像名字那么简单，事实上我更愿意把相�
 
 #### 美化你的滚动条
 
-不满意默认的滚动条样式，提供了下面的方式来
+不满意默认的滚动条样式 / 你能做得更好？，提供了下面的方式来自定义你的滚动条
 
 通过设置 `scrollbars` 选项是 `custom` 可以开启自定义滚动条样式，然后配合自定义对应类名的样式，就可以实现自定义的滚动条
 
@@ -249,11 +264,13 @@ scrollbar的属性并不是像名字那么简单，事实上我更愿意把相�
 - .iScrollIndicator 滚动指示器的样式
 - .iScrollBothScrollbars 当两个方向的滚动指示器同时出现的时候，这个样式会被自动添加到容器上面，主要目的是为了避免出现滚动条容器出现的重合的样式
 
-最佳实践在手动指定 `iScroll` 样式的同时，不要去固定滚动条指示器的宽度，让他默认自适应大小
+这个栗子 [styled scrollbars demo]() 比我苍白的解释要有用得多
+
+最佳实践在手动指定 `iScroll` 样式的同时，需要固定滚动条指示器的长度，自动计算往往会导致长度过小的情况
 
 ### 指示器
 
-上面的滚动条相关设置都是面向指示器容器的设置，下面才是真正炫酷的指示器的设置，先举个栗子：
+上面的设置都是相对简单原始的滚动条的设置，下面才是真正炫酷的指示器设置，先举个栗子：
 
 ```
 var myScroll = new IScroll('#wrapper', {
@@ -274,7 +291,7 @@ var myScroll = new IScroll('#wrapper', {
 
 #### options.indicators.el
 
-这是个指令式的参数，保存了对滚动条容器元素的引用。在容器中的第一个子元素将被认为是指示器。值得注意的是，滚动条可以出现在你文档的任何地方，而不是仅仅出现在滚动的容器里面。现在你开始意识到这个工具的威力了吧？
+这是个指令式的参数，保存了对指示器容器元素的引用。在容器中的第一个子元素将被认为是指示器。值得注意的是，指示器容器可以出现在你文档的任何地方，而不是仅仅出现在滚动的容器里面。现在你开始意识到这个工具的威力了吧？
 
 有效的语法：
 
@@ -294,7 +311,7 @@ var myScroll = new IScroll('#wrapper', {
 
 #### options.indicators.ignoreBoundaries (Default: false)
 
-让指示器无视容器的边界。后续我们会了解到，我们可以修改指示器的移动速率，这样可以看上去只有指示器在移动（视差）。假设你让指示器的速度两倍于页面滚动的速度，很快指示器就会滚动到页面底部，所以这个属性常常用于配合实现视差滚动
+让指示器无视容器的边界。后续我们会了解到，借助这个属性同时修改指示器的移动速率，这样可以看上去只有指示器在移动（视差）。假设你让指示器的速度两倍于页面滚动的速度，很快指示器就会滚动到页面底部，所以这个属性常常用于配合实现视差滚动，看栗子 [parallax scrolling]()
 
 #### options.indicators.listenX (Default: true)
 #### options.indicators.listenY (Default: true)
@@ -313,9 +330,7 @@ var myScroll = new IScroll('#wrapper', {
 
 这些属性的名称看上去我们在滚动条模块已经都介绍过了。在这里重复并不是我脑子坏了或是什么，你往下看就知道了
 
-// @ todos minmap的实现太酷炫 官方也没有讲清楚
-
-不要混淆概念以及交叉使用，这样问题会很多
+**不要混淆概念以及交叉使用，这样问题会很多！**
 
 ### 视差滚动
 
